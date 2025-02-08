@@ -3,9 +3,27 @@ services:
     container_name: 'user-items-mysql'
     image: 'mysql:9.2.0'
     environment:
-      - 'MYSQL_DATABASE=useritems'
-      - 'MYSQL_PASSWORD=password'
-      - 'MYSQL_ROOT_PASSWORD=password'
-      - 'MYSQL_USER=admin'
+      MYSQL_DATABASE: useritems
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: admin
     ports:
       - '3306:3306'
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    container_name: spring-boot-app
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/useritems
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: password
+    ports:
+      - "8080:8080"
