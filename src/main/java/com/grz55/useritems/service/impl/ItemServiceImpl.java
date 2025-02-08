@@ -6,6 +6,7 @@ import com.grz55.useritems.entity.ItemEntity;
 import com.grz55.useritems.entity.UserEntity;
 import com.grz55.useritems.exception.InvalidAuthenticationException;
 import com.grz55.useritems.exception.NotFoundException;
+import com.grz55.useritems.mapper.ItemMapper;
 import com.grz55.useritems.messages.AuthenticationMessages;
 import com.grz55.useritems.messages.UserMessages;
 import com.grz55.useritems.repository.ItemRepository;
@@ -23,16 +24,12 @@ public class ItemServiceImpl implements IItemService {
 
   private final ItemRepository itemRepository;
   private final UserRepository userRepository;
+  private final ItemMapper itemMapper;
 
   @Override
   public void createItem(ItemCreateRequestDTO itemCreateRequest) {
     String username = getAuthenticatedUsername();
-    UserEntity user =
-        userRepository
-            .findByLogin(username)
-            .orElseThrow(
-                () ->
-                    new NotFoundException(UserMessages.USER_NOT_FOUND_BY_USERNAME_MSG + username));
+    UserEntity user = fetchUserByLogin(username);
 
     ItemEntity item = new ItemEntity(itemCreateRequest.getTitle(), user);
     itemRepository.save(item);
@@ -41,15 +38,10 @@ public class ItemServiceImpl implements IItemService {
   @Override
   public List<ItemDTO> getUserItems() {
     String username = getAuthenticatedUsername();
-    UserEntity user =
-        userRepository
-            .findByLogin(username)
-            .orElseThrow(
-                () ->
-                    new NotFoundException(UserMessages.USER_NOT_FOUND_BY_USERNAME_MSG + username));
+    UserEntity user = fetchUserByLogin(username);
 
     List<ItemEntity> items = itemRepository.findByOwnerId(user.getId());
-    return items.stream().map(i -> new ItemDTO(i.getId(), i.getName())).toList();
+    return itemMapper.toItemDTOList(items);
   }
 
   private String getAuthenticatedUsername() {
@@ -59,5 +51,12 @@ public class ItemServiceImpl implements IItemService {
           AuthenticationMessages.AUTHENTICATION_IS_MISSING_OR_INVALID);
     }
     return authentication.getName();
+  }
+
+  private UserEntity fetchUserByLogin(String username) {
+    return userRepository
+        .findByLogin(username)
+        .orElseThrow(
+            () -> new NotFoundException(UserMessages.USER_NOT_FOUND_BY_USERNAME + username));
   }
 }
