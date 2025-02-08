@@ -1,4 +1,4 @@
-package com.grz55.useritems.messages;
+package com.grz55.useritems.message;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
