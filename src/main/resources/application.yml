@@ -12,4 +12,4 @@ spring:
     change-log: classpath:/db/changelog/db.changelog-master.yaml
 
 jwt:
-  secret: "supersecretkeysupersecretkeysupersecretkeysupersecretkey"
+  secret: "${JWT_SECRET:supersecretkeysupersecretkeysupersecretkeysupersecretkey}"
