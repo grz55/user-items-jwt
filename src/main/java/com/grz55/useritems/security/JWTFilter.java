@@ -2,6 +2,7 @@ package com.grz55.useritems.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -46,7 +47,7 @@ public class JWTFilter extends OncePerRequestFilter {
       authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
       SecurityContextHolder.getContext().setAuthentication(authToken);
-    } catch (UnsupportedJwtException e) {
+    } catch (UnsupportedJwtException | SignatureException e) {
       response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid token");
       return;
     }
