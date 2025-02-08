@@ -13,5 +13,6 @@ import lombok.Setter;
 public class ItemDTO {
 
   private UUID id;
+
   private String title;
 }
