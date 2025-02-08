@@ -1,0 +1,63 @@
+package com.grz55.useritems.service.impl;
+
+import com.grz55.useritems.dto.ItemCreateRequestDTO;
+import com.grz55.useritems.dto.ItemDTO;
+import com.grz55.useritems.entity.ItemEntity;
+import com.grz55.useritems.entity.UserEntity;
+import com.grz55.useritems.exception.InvalidAuthenticationException;
+import com.grz55.useritems.exception.NotFoundException;
+import com.grz55.useritems.messages.AuthenticationMessages;
+import com.grz55.useritems.messages.UserMessages;
+import com.grz55.useritems.repository.ItemRepository;
+import com.grz55.useritems.repository.UserRepository;
+import com.grz55.useritems.service.IItemService;
+import java.util.List;
+import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+
+@Service
+@AllArgsConstructor
+public class ItemServiceImpl implements IItemService {
+
+  private final ItemRepository itemRepository;
+  private final UserRepository userRepository;
+
+  @Override
+  public void createItem(ItemCreateRequestDTO itemCreateRequest) {
+    String username = getAuthenticatedUsername();
+    UserEntity user =
+        userRepository
+            .findByLogin(username)
+            .orElseThrow(
+                () ->
+                    new NotFoundException(UserMessages.USER_NOT_FOUND_BY_USERNAME_MSG + username));
+
+    ItemEntity item = new ItemEntity(itemCreateRequest.getTitle(), user);
+    itemRepository.save(item);
+  }
+
+  @Override
+  public List<ItemDTO> getUserItems() {
+    String username = getAuthenticatedUsername();
+    UserEntity user =
+        userRepository
+            .findByLogin(username)
+            .orElseThrow(
+                () ->
+                    new NotFoundException(UserMessages.USER_NOT_FOUND_BY_USERNAME_MSG + username));
+
+    List<ItemEntity> items = itemRepository.findByOwnerId(user.getId());
+    return items.stream().map(i -> new ItemDTO(i.getId(), i.getName())).toList();
+  }
+
+  private String getAuthenticatedUsername() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (authentication == null || authentication.getName() == null) {
+      throw new InvalidAuthenticationException(
+          AuthenticationMessages.AUTHENTICATION_IS_MISSING_OR_INVALID);
+    }
+    return authentication.getName();
+  }
+}
