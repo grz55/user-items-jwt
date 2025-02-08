@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends CrudRepository<UserEntity, UUID> {
 
   Optional<UserEntity> findByLogin(String username);
+
+  boolean existsByLogin(String login);
 }
