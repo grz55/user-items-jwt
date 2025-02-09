@@ -15,8 +15,6 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 class ItemCreateTest extends ItemServiceBaseTest {
@@ -37,8 +35,6 @@ class ItemCreateTest extends ItemServiceBaseTest {
 
   @Test
   void shouldCreateItemSuccessfully() {
-    Authentication authentication = mock(Authentication.class);
-    SecurityContext securityContext = mock(SecurityContext.class);
     SecurityContextHolder.setContext(securityContext);
 
     when(authentication.getName()).thenReturn(USER_DEFAULT_LOGIN);
@@ -71,8 +67,6 @@ class ItemCreateTest extends ItemServiceBaseTest {
 
   @Test
   void shouldThrowExceptionIfUserNotFound() {
-    Authentication authentication = mock(Authentication.class);
-    SecurityContext securityContext = mock(SecurityContext.class);
     SecurityContextHolder.setContext(securityContext);
 
     when(authentication.getName()).thenReturn(USER_UNKNOWN_LOGIN);

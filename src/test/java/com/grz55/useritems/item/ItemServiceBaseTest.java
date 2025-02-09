@@ -6,6 +6,8 @@ import com.grz55.useritems.repository.UserRepository;
 import com.grz55.useritems.service.IItemService;
 import com.grz55.useritems.service.impl.ItemServiceImpl;
 import org.mockito.Mockito;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 abstract class ItemServiceBaseTest {
@@ -16,6 +18,10 @@ abstract class ItemServiceBaseTest {
   @MockitoBean protected ItemRepository itemRepository = Mockito.mock(ItemRepository.class);
 
   @MockitoBean protected UserRepository userRepository = Mockito.mock(UserRepository.class);
+
+  @MockitoBean protected Authentication authentication = Mockito.mock(Authentication.class);
+
+  @MockitoBean protected SecurityContext securityContext = Mockito.mock(SecurityContext.class);
 
   protected ItemMapper itemMapper = new ItemMapper();
 

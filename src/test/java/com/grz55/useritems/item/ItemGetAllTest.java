@@ -15,8 +15,6 @@ import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 class ItemGetAllTest extends ItemServiceBaseTest {
@@ -44,8 +42,6 @@ class ItemGetAllTest extends ItemServiceBaseTest {
 
   @Test
   void shouldReturnUserItemsSuccessfully() {
-    Authentication authentication = mock(Authentication.class);
-    SecurityContext securityContext = mock(SecurityContext.class);
     SecurityContextHolder.setContext(securityContext);
 
     when(authentication.getName()).thenReturn(USER_DEFAULT_LOGIN);
@@ -76,8 +72,6 @@ class ItemGetAllTest extends ItemServiceBaseTest {
 
   @Test
   void shouldThrowExceptionIfUserNotFound() {
-    Authentication authentication = mock(Authentication.class);
-    SecurityContext securityContext = mock(SecurityContext.class);
     SecurityContextHolder.setContext(securityContext);
 
     when(authentication.getName()).thenReturn(USER_UNKNOWN_LOGIN);
