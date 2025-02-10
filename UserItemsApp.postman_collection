@@ -21,13 +21,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/register",
+					"raw": "http://localhost:8080/v1/register",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"v1",
 						"register"
 					]
 				}
@@ -49,13 +50,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/login",
+					"raw": "http://localhost:8080/v1/login",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"v1",
 						"login"
 					]
 				}
@@ -70,7 +72,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJHcnplZ29yeiIsImlhdCI6MTczOTAzNTQ2OCwiZXhwIjoxNzM5MDM5MDY4fQ.12A75ukSJKBdXV1uTjF7RlkXKICvP0Y9KpvlIWVQuGgoNMu7SNuPtUd447QkDoCD",
+							"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJHcnplZ29yeiIsImlhdCI6MTczOTE4MTA4NCwiZXhwIjoxNzM5MTg0Njg0fQ.azhkoUYzT0ch9hmvDYt7LBxXgKCdde1wwZTc4qfHEAc6USIGqDaZFzGRBROFrYXI",
 							"type": "string"
 						}
 					]
@@ -87,13 +89,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/items",
+					"raw": "http://localhost:8080/v1/items",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"v1",
 						"items"
 					]
 				}
@@ -104,24 +107,32 @@
 			"name": "Get All User Items",
 			"request": {
 				"auth": {
-					"type": "noauth"
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJHcnplZ29yeiIsImlhdCI6MTczOTE4MTA4NCwiZXhwIjoxNzM5MTg0Njg0fQ.azhkoUYzT0ch9hmvDYt7LBxXgKCdde1wwZTc4qfHEAc6USIGqDaZFzGRBROFrYXI",
+							"type": "string"
+						}
+					]
 				},
 				"method": "GET",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJHcnplZ29yeiIsImlhdCI6MTczOTAzNTQ2OCwiZXhwIjoxNzM5MDM5MDY4fQ.12A75ukSJKBdXV1uTjF7RlkXKICvP0Y9KpvlIWVQuGgoNMu7SNuPtUd447QkDoCD",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJHcnplZ29yeiIsImlhdCI6MTczOTAzOTgxNSwiZXhwIjoxNzM5MDQzNDE1fQ.zOAApry3mQimTslvQBVsNd8fwrx4QUYnIQJ8Ch6JlW5HMZR1OJ55MUbtD7Pdxy8F",
 						"type": "text"
 					}
 				],
 				"url": {
-					"raw": "http://localhost:8080/items",
+					"raw": "http://localhost:8080/v1/items",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"v1",
 						"items"
 					]
 				}
